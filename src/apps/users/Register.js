@@ -3,34 +3,19 @@
 import signup from "../../static/img/signup.gif";
 import { useContext } from "react";
 import Context from "../../context/Contexts";
-import { useGoogleLogin } from "@react-oauth/google";
-import { get_user_google_credentials } from "../../utils/utils";
 
 function Register() {
   /**User Registration Page */
-  const { registerUser, toggle, toggleState, googleRegister } = useContext(
+  const { registerUser, } = useContext(
     Context.UserContext
   );
+  const { toggle, setToggle } = useContext(Context.UtilsContext)
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.target);
     registerUser(data);
   };
-  const loginHandler = useGoogleLogin({
-    onSuccess: async (codeResponse) => {
-      let response = await get_user_google_credentials(
-        codeResponse.access_token
-      );
-      googleRegister({
-        token: codeResponse.access_token,
-        google_id: response.id,
-        username: response.email,
-        email: response.email,
-        first_name: response.given_name,
-      });
-    },
-    onError: (error) => console.error("Login Failed:", error),
-  });
+
   return (
     <>
       <div
@@ -47,17 +32,6 @@ function Register() {
             <h1 className="text-center text-2xl sm:text-3xl font-semibold">
               Create Account
             </h1>
-            <button
-              className="mt-3 w-full btn btn-primary"
-              onClick={loginHandler}
-            >
-              Register with Google
-            </button>
-            <p className="text-sm text-center mt-2 italic">
-              Note: use email id as username, for next login step, you can
-              change it later. forgot password & create a new password on first
-              login when registering with Google.
-            </p>
             <form
               method="POST"
               onSubmit={handleSubmit}
@@ -65,41 +39,66 @@ function Register() {
               className="w-full mt-5 sm:mt-8"
             >
               <div className="mx-auto w-full sm:max-w-md md:max-w-lg flex flex-col gap-5">
-                <input
-                  type="text"
-                  placeholder="Enter Your First Name"
-                  name="first_name"
-                  className="input input-bordered input-primary w-full"
-                />
-                <input
-                  type="text"
-                  placeholder="Enter Username"
-                  name="username"
-                  className="input input-bordered input-primary w-full"
-                />
-                <input
-                  type="text"
-                  placeholder="Enter Your Email"
-                  name="email"
-                  className="input input-bordered input-primary w-full"
-                />
-                <input
-                  type="password"
-                  placeholder="Choose Your Password"
-                  name="password"
-                  className="input input-bordered input-primary w-full"
-                />
-                <input
-                  type={toggle ? "text" : "password"}
-                  placeholder="Confirm Password"
-                  name="confirm_password"
-                  className="input input-bordered input-primary w-full"
-                />
+                <label class="form-control w-full">
+                  <div class="label">
+                    <span class="label-text">First Name</span>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Enter Your First Name"
+                    name="first_name"
+                    className="input input-bordered input-primary w-full"
+                  />
+                </label>
+                <label class="form-control w-full">
+                  <div class="label">
+                    <span class="label-text">UserName</span>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Enter Username"
+                    name="username"
+                    className="input input-bordered input-primary w-full"
+                  />
+                </label>
+                <label class="form-control w-full">
+                  <div class="label">
+                    <span class="label-text">Email</span>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Enter Your Email"
+                    name="email"
+                    className="input input-bordered input-primary w-full"
+                  />
+                </label>
+                <label class="form-control w-full">
+                  <div class="label">
+                    <span class="label-text">Password</span>
+                  </div>
+                  <input
+                    type="password"
+                    placeholder="Choose Your Password"
+                    name="password"
+                    className="input input-bordered input-primary w-full"
+                  />
+                </label>
+                <label class="form-control w-full">
+                  <div class="label">
+                    <span class="label-text">Confirm Password</span>
+                  </div>
+                  <input
+                    type={toggle ? "text" : "password"}
+                    placeholder="Confirm Password"
+                    name="confirm_password"
+                    className="input input-bordered input-primary w-full"
+                  />
+                </label>
                 <div className="form-control">
                   <label className="label cursor-pointer justify-start gap-x-4">
                     <input
                       type="checkbox"
-                      onClick={toggleState}
+                      onClick={() => setToggle(!toggle)}
                       className="toggle toggle-primary"
                     />
                     <span className="label-text">Show Password</span>

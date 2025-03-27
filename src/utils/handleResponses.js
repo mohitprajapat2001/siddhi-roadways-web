@@ -49,3 +49,11 @@ export const loginUserSuccess = (response, id) => {
 export const createUserSuccess = (response, id) => {
   SuccessToast(id, ResponseMessages.USER_CREATED_SUCCESS);
 };
+
+/**
+ * Register user Success
+ */
+export const registerUserSuccess = (response, id) => {
+  SuccessToast(id, ResponseMessages.USER_REGISTED_SUCCESS);
+  redirectPage("/auth/login")
+}

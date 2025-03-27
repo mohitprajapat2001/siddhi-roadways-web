@@ -6,9 +6,10 @@ import { BaseUrlPath, IGNORE_URL_PATHS } from "../utils/contants";
 import { getBearerToken, removeLocalStorage } from "../utils/utils";
 import { LoadingToast } from "../utils/ToastMessage";
 import { LogOut } from "../utils/LogOut";
-import { loginUserSuccess, createUserSuccess } from "../utils/handleResponses";
+import { loginUserSuccess, createUserSuccess, registerUserSuccess } from "../utils/handleResponses";
 const usersAPIURL = BaseUrlPath + "api/users/";
 const userLoginUrl = BaseUrlPath + "api/login/";
+const userRegisterUrl = BaseUrlPath + "api/register/"
 const UsersProvider = ({ children }) => {
   let toastId = null;
   const { updatePreloader } = useContext(Context.UtilsContext);
@@ -30,7 +31,7 @@ const UsersProvider = ({ children }) => {
 
   const loginUser = async (data) => {
     toastId = LoadingToast("Logging in...");
-    const respone = await PostRequest(
+    await PostRequest(
       userLoginUrl,
       data,
       null,
@@ -67,11 +68,16 @@ const UsersProvider = ({ children }) => {
     );
     response && getUsers();
   };
+  const registerUser = (data) => {
+    toastId = LoadingToast("Registering User...");
+    PostRequest(userRegisterUrl, data, null, registerUserSuccess, toastId)
+  }
 
   useEffect(() => {
     if (!IGNORE_URL_PATHS.includes(window.location.pathname)) {
       authenticatedUser();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const data = {
     users,
@@ -80,7 +86,7 @@ const UsersProvider = ({ children }) => {
     authenticatedUser,
     loginUser,
     logOutHandler,
-    createUser,
+    createUser, registerUser
   };
   return (
     <Context.UserContext.Provider value={data}>

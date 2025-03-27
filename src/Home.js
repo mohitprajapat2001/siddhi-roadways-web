@@ -22,6 +22,9 @@ const Home = () => {
     const data = new FormData(e.target);
     createInvoice(data);
   };
+  const promiseOptions = (inputValue) => {
+    console.log(inputValue)
+  }
 
   return (
     (preload && <Preloader />) || (
@@ -83,6 +86,7 @@ const Home = () => {
                         <span className="label-text">Select Consigner</span>
                       </div>
                       <Select
+                       loadOptions={promiseOptions} 
                         name="consignor"
                         placeholder="Select Consigner"
                         options={users?.map((user) => ({

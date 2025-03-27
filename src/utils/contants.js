@@ -3,7 +3,7 @@
 /**Daisy UI Themes */
 export const themes = ["light", "dark", "lofi", "black", "night"];
 
-export const IGNORE_URL_PATHS = ["/auth/login/", "/auth/login"];
+export const IGNORE_URL_PATHS = ["/auth/login/", "/auth/login", "/auth/register", "/auth/register/"];
 
 export const BaseUrlPath = "http://127.0.0.1:8000/";
 // export const BaseUrlPath = "https://halydeals.com/";
@@ -74,4 +74,5 @@ export const ResponseMessages = {
   USER_CREATED_SUCCESS: "User Created Successfully",
   USER_UPDATED_SUCCESS: "User Updated Successfully",
   USER_DELETED_SUCCESS: "User Deleted Successfully",
+  USER_REGISTED_SUCCESS: "User Registered Successfully",
 };
